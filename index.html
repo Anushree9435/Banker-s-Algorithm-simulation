@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Interactive Banker's Algorithm Simulator - Learn, visualize, and test your knowledge of deadlock avoidance in operating systems">
+    <title>Banker's Algorithm Suite | Interactive OS Learning Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Animated Background -->
+    <div class="bg-animation">
+        <div class="floating-orb orb-1"></div>
+        <div class="floating-orb orb-2"></div>
+        <div class="floating-orb orb-3"></div>
+        <div class="floating-orb orb-4"></div>
+        <div class="grid-overlay"></div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav id="app-nav">
+        <div class="nav-content">
+            <a href="#home" class="nav-logo" id="nav-logo-link">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 40 40" fill="none">
+                        <rect x="2" y="2" width="36" height="36" rx="8" stroke="url(#logoGrad)" stroke-width="2.5"/>
+                        <circle cx="13" cy="13" r="4" fill="url(#logoGrad)"/>
+                        <circle cx="27" cy="13" r="4" fill="url(#logoGrad)" opacity="0.7"/>
+                        <circle cx="13" cy="27" r="4" fill="url(#logoGrad)" opacity="0.5"/>
+                        <circle cx="27" cy="27" r="4" fill="url(#logoGrad)" opacity="0.3"/>
+                        <line x1="13" y1="13" x2="27" y2="27" stroke="url(#logoGrad)" stroke-width="1.5" opacity="0.5"/>
+                        <line x1="27" y1="13" x2="13" y2="27" stroke="url(#logoGrad)" stroke-width="1.5" opacity="0.5"/>
+                        <defs>
+                            <linearGradient id="logoGrad" x1="0" y1="0" x2="40" y2="40">
+                                <stop offset="0%" stop-color="#6366f1"/>
+                                <stop offset="100%" stop-color="#a855f7"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <span class="nav-title">Banker's Algorithm</span>
+            </a>
+            <div class="nav-links" id="nav-links">
+                <a href="#home" class="nav-link active" data-page="home">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                    Home
+                </a>
+                <a href="#simulator" class="nav-link" data-page="simulator">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    Simulator
+                </a>
+                <a href="#theory" class="nav-link" data-page="theory">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    Theory
+                </a>
+                <a href="#quiz" class="nav-link" data-page="quiz">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    Quiz
+                </a>
+            </div>
+            <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- ============================================ -->
+    <!-- PAGE: HOME                                   -->
+    <!-- ============================================ -->
+    <div id="page-home" class="page active">
+        <div class="hero-section">
+            <div class="hero-badge animate-in">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                Operating Systems — Deadlock Avoidance
+            </div>
+            <h1 class="hero-title animate-in">
+                Master the <span class="gradient-text">Banker's Algorithm</span>
+            </h1>
+            <p class="hero-subtitle animate-in">
+                An interactive learning platform to understand, simulate, and test your knowledge of one of the most fundamental deadlock avoidance algorithms in operating systems.
+            </p>
+            <div class="hero-actions animate-in">
+                <a href="#simulator" class="btn btn-primary btn-lg" id="hero-start-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    Launch Simulator
+                </a>
+                <a href="#theory" class="btn btn-ghost btn-lg" id="hero-learn-btn">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    Learn Theory
+                </a>
+            </div>
+        </div>
+
+        <!-- Feature Cards -->
+        <div class="features-section">
+            <div class="features-grid">
+                <div class="feature-card animate-in" style="animation-delay: 0.1s">
+                    <div class="feature-icon simulator-fi">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                    </div>
+                    <h3>Interactive Simulator</h3>
+                    <p>Configure processes, resources, and allocation matrices. Visualize safe and unsafe system states with step-by-step algorithm traces.</p>
+                    <a href="#simulator" class="feature-link">Open Simulator →</a>
+                </div>
+                <div class="feature-card animate-in" style="animation-delay: 0.2s">
+                    <div class="feature-icon theory-fi">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                    </div>
+                    <h3>Theory & Concepts</h3>
+                    <p>Deep-dive into deadlock conditions, resource allocation graphs, the safety algorithm, and Banker's Algorithm with clear explanations.</p>
+                    <a href="#theory" class="feature-link">Read Theory →</a>
+                </div>
+                <div class="feature-card animate-in" style="animation-delay: 0.3s">
+                    <div class="feature-icon quiz-fi">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                    </div>
+                    <h3>Interactive Quiz</h3>
+                    <p>Test your understanding with carefully crafted questions covering deadlock theory, resource management, and algorithm mechanics.</p>
+                    <a href="#quiz" class="feature-link">Take Quiz →</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="stats-section animate-in">
+            <div class="stat-item">
+                <div class="stat-number" id="stat-concepts">4</div>
+                <div class="stat-label">Deadlock Conditions</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-number" id="stat-matrices">5</div>
+                <div class="stat-label">Core Matrices</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-number" id="stat-quiz">15</div>
+                <div class="stat-label">Quiz Questions</div>
+            </div>
+            <div class="stat-divider"></div>
+            <div class="stat-item">
+                <div class="stat-number">∞</div>
+                <div class="stat-label">Simulations</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- PAGE: SIMULATOR                              -->
+    <!-- ============================================ -->
+    <div id="page-simulator" class="page">
+        <div class="page-container">
+            <div class="page-header animate-in">
+                <h1 class="page-title"><span class="gradient-text">Banker's Algorithm</span> Simulator</h1>
+                <p class="page-subtitle">Configure processes and resources, then check system safety in real-time</p>
+                <div class="header-actions">
+                    <button id="btn-example" class="btn btn-ghost" title="Load Example">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                        Load Example
+                    </button>
+                    <button id="btn-reset" class="btn btn-ghost" title="Reset All">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                        Reset
+                    </button>
+                </div>
+            </div>
+
+            <!-- Configuration Panel -->
+            <section id="config-section" class="glass-card animate-in">
+                <div class="card-header">
+                    <div class="card-icon config-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                    </div>
+                    <div>
+                        <h2>System Configuration</h2>
+                        <p>Set up processes, resources, and allocation matrices</p>
+                    </div>
+                </div>
+
+                <div class="config-grid">
+                    <div class="config-item">
+                        <label for="num-processes">Number of Processes</label>
+                        <div class="stepper">
+                            <button class="stepper-btn" onclick="adjustValue('num-processes', -1)">−</button>
+                            <input type="number" id="num-processes" value="5" min="1" max="10">
+                            <button class="stepper-btn" onclick="adjustValue('num-processes', 1)">+</button>
+                        </div>
+                    </div>
+                    <div class="config-item">
+                        <label for="num-resources">Number of Resource Types</label>
+                        <div class="stepper">
+                            <button class="stepper-btn" onclick="adjustValue('num-resources', -1)">−</button>
+                            <input type="number" id="num-resources" value="3" min="1" max="10">
+                            <button class="stepper-btn" onclick="adjustValue('num-resources', 1)">+</button>
+                        </div>
+                    </div>
+                    <button id="btn-generate" class="btn btn-primary btn-generate">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+                        Generate Matrices
+                    </button>
+                </div>
+            </section>
+
+            <!-- Matrices Section -->
+            <section id="matrices-section" class="hidden">
+                <!-- Available Resources -->
+                <div class="glass-card animate-in" id="available-card">
+                    <div class="card-header">
+                        <div class="card-icon available-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+                        </div>
+                        <div>
+                            <h2>Available Resources</h2>
+                            <p>Currently available instances of each resource type</p>
+                        </div>
+                    </div>
+                    <div id="available-matrix" class="matrix-container"></div>
+                </div>
+
+                <!-- Allocation & Maximum side by side -->
+                <div class="matrices-row">
+                    <div class="glass-card animate-in" id="allocation-card">
+                        <div class="card-header">
+                            <div class="card-icon alloc-icon">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                            </div>
+                            <div>
+                                <h2>Allocation Matrix</h2>
+                                <p>Resources currently allocated to each process</p>
+                            </div>
+                        </div>
+                        <div id="allocation-matrix" class="matrix-container"></div>
+                    </div>
+
+                    <div class="glass-card animate-in" id="maximum-card">
+                        <div class="card-header">
+                            <div class="card-icon max-icon">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg>
+                            </div>
+                            <div>
+                                <h2>Maximum Matrix</h2>
+                                <p>Maximum resources each process may request</p>
+                            </div>
+                        </div>
+                        <div id="maximum-matrix" class="matrix-container"></div>
+                    </div>
+                </div>
+
+                <!-- Need Matrix (auto-computed) -->
+                <div class="glass-card animate-in" id="need-card">
+                    <div class="card-header">
+                        <div class="card-icon need-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                        </div>
+                        <div>
+                            <h2>Need Matrix</h2>
+                            <p>Remaining resource needs (Maximum − Allocation) — auto-computed</p>
+                        </div>
+                    </div>
+                    <div id="need-matrix" class="matrix-container"></div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="action-bar">
+                    <button id="btn-check-safety" class="btn btn-primary btn-lg">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                        Check System Safety
+                    </button>
+                    <button id="btn-request" class="btn btn-secondary btn-lg">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                        Resource Request
+                    </button>
+                    <button id="btn-release" class="btn btn-accent btn-lg">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                        Release Resources
+                    </button>
+                </div>
+            </section>
+
+            <!-- Resource Request Modal -->
+            <div id="request-modal" class="modal hidden">
+                <div class="modal-overlay"></div>
+                <div class="modal-content glass-card">
+                    <div class="modal-header">
+                        <h2 id="modal-title">Resource Request</h2>
+                        <button class="modal-close" onclick="closeModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="request-process">Select Process</label>
+                            <select id="request-process" class="select-input"></select>
+                        </div>
+                        <div id="request-resources-inputs" class="form-group"></div>
+                        <div id="request-validation" class="validation-msg hidden"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-ghost" onclick="closeModal()">Cancel</button>
+                        <button id="btn-submit-request" class="btn btn-primary">Submit Request</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Release Modal -->
+            <div id="release-modal" class="modal hidden">
+                <div class="modal-overlay"></div>
+                <div class="modal-content glass-card">
+                    <div class="modal-header">
+                        <h2>Release Resources</h2>
+                        <button class="modal-close" onclick="closeReleaseModal()">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="release-process">Select Process</label>
+                            <select id="release-process" class="select-input"></select>
+                        </div>
+                        <div id="release-resources-inputs" class="form-group"></div>
+                        <div id="release-validation" class="validation-msg hidden"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-ghost" onclick="closeReleaseModal()">Cancel</button>
+                        <button id="btn-submit-release" class="btn btn-accent">Release</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results Section -->
+            <section id="results-section" class="hidden">
+                <!-- State Banner -->
+                <div id="state-banner" class="state-banner glass-card animate-in">
+                    <div class="state-icon" id="state-icon"></div>
+                    <div class="state-info">
+                        <h2 id="state-title">System State</h2>
+                        <p id="state-description"></p>
+                    </div>
+                </div>
+
+                <!-- Visualization Row -->
+                <div class="results-row">
+                    <!-- Safe Sequence -->
+                    <div class="glass-card animate-in" id="sequence-card">
+                        <div class="card-header">
+                            <div class="card-icon sequence-icon">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+                            </div>
+                            <div>
+                                <h2>Safe Sequence</h2>
+                                <p>Order of process execution</p>
+                            </div>
+                        </div>
+                        <div id="safe-sequence" class="sequence-display"></div>
+                    </div>
+
+                    <!-- Resource Utilization -->
+                    <div class="glass-card animate-in" id="utilization-card">
+                        <div class="card-header">
+                            <div class="card-icon util-icon">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                            </div>
+                            <div>
+                                <h2>Resource Utilization</h2>
+                                <p>Allocated vs Available</p>
+                            </div>
+                        </div>
+                        <div id="resource-bars" class="resource-bars"></div>
+                    </div>
+                </div>
+
+                <!-- Step-by-Step Trace -->
+                <div class="glass-card animate-in" id="trace-card">
+                    <div class="card-header">
+                        <div class="card-icon trace-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                        </div>
+                        <div>
+                            <h2>Algorithm Trace</h2>
+                            <p>Step-by-step execution of the safety algorithm</p>
+                        </div>
+                        <button id="btn-play-trace" class="btn btn-ghost btn-sm" style="margin-left:auto">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                            Animate
+                        </button>
+                    </div>
+                    <div id="trace-steps" class="trace-steps"></div>
+                </div>
+
+                <!-- Process State Diagram -->
+                <div class="glass-card animate-in" id="process-diagram-card">
+                    <div class="card-header">
+                        <div class="card-icon diagram-icon">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        </div>
+                        <div>
+                            <h2>Process State Diagram</h2>
+                            <p>Visual representation of each process's resource state</p>
+                        </div>
+                    </div>
+                    <div id="process-diagrams" class="process-diagrams"></div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- PAGE: THEORY                                 -->
+    <!-- ============================================ -->
+    <div id="page-theory" class="page">
+        <div class="page-container">
+            <div class="page-header animate-in">
+                <h1 class="page-title">Understanding <span class="gradient-text">Deadlocks & Banker's Algorithm</span></h1>
+                <p class="page-subtitle">A comprehensive guide to deadlock avoidance in operating systems</p>
+            </div>
+
+            <!-- Table of Contents -->
+            <div class="glass-card toc-card animate-in">
+                <h3 class="toc-title">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+                    Table of Contents
+                </h3>
+                <div class="toc-links">
+                    <a href="#" class="toc-link" onclick="scrollToSection('theory-intro')">1. Introduction to Deadlocks</a>
+                    <a href="#" class="toc-link" onclick="scrollToSection('theory-conditions')">2. Four Necessary Conditions</a>
+                    <a href="#" class="toc-link" onclick="scrollToSection('theory-handling')">3. Deadlock Handling Strategies</a>
+                    <a href="#" class="toc-link" onclick="scrollToSection('theory-bankers')">4. Banker's Algorithm</a>
+                    <a href="#" class="toc-link" onclick="scrollToSection('theory-safety')">5. Safety Algorithm</a>
+                    <a href="#" class="toc-link" onclick="scrollToSection('theory-request')">6. Resource-Request Algorithm</a>
+                    <a href="#" class="toc-link" onclick="scrollToSection('theory-example')">7. Worked Example</a>
+                </div>
+            </div>
+
+            <!-- Section 1: Introduction -->
+            <div class="glass-card theory-section animate-in" id="theory-intro">
+                <div class="theory-section-header">
+                    <div class="section-number">01</div>
+                    <div>
+                        <h2>Introduction to Deadlocks</h2>
+                        <p class="theory-meta">Foundation Concept</p>
+                    </div>
+                </div>
+                <div class="theory-content">
+                    <p>A <strong>deadlock</strong> is a situation in a multiprogramming environment where two or more processes are <em>blocked forever</em>, each waiting for a resource held by another process in the set. No process can proceed because each is waiting for an event that can only be caused by another blocked process.</p>
+                    <div class="theory-callout info">
+                        <div class="callout-icon">💡</div>
+                        <div>
+                            <strong>Real-world Analogy:</strong> Imagine two cars meeting on a narrow bridge from opposite sides. Neither can move forward or backward — they're deadlocked. In computing, processes holding resources while requesting others create the same situation.
+                        </div>
+                    </div>
+                    <p>Deadlocks are a critical concern in operating systems because they can cause system-wide resource starvation. The system must either prevent, avoid, detect, or recover from deadlocks.</p>
+                </div>
+            </div>
+
+            <!-- Section 2: Four Conditions -->
+            <div class="glass-card theory-section animate-in" id="theory-conditions">
+                <div class="theory-section-header">
+                    <div class="section-number">02</div>
+                    <div>
+                        <h2>Four Necessary Conditions for Deadlock</h2>
+                        <p class="theory-meta">Coffman Conditions (1971)</p>
+                    </div>
+                </div>
+                <div class="theory-content">
+                    <p>A deadlock can occur <strong>if and only if</strong> all four of the following conditions hold simultaneously:</p>
+                    <div class="conditions-grid">
+                        <div class="condition-card">
+                            <div class="condition-num">1</div>
+                            <h4>Mutual Exclusion</h4>
+                            <p>At least one resource must be held in a non-shareable mode. Only one process can use the resource at a time. If another process requests it, it must wait.</p>
+                        </div>
+                        <div class="condition-card">
+                            <div class="condition-num">2</div>
+                            <h4>Hold and Wait</h4>
+                            <p>A process must be holding at least one resource while waiting to acquire additional resources that are currently held by other processes.</p>
+                        </div>
+                        <div class="condition-card">
+                            <div class="condition-num">3</div>
+                            <h4>No Preemption</h4>
+                            <p>Resources cannot be forcibly taken away from a process. A resource can only be released voluntarily by the process holding it after completing its task.</p>
+                        </div>
+                        <div class="condition-card">
+                            <div class="condition-num">4</div>
+                            <h4>Circular Wait</h4>
+                            <p>There must exist a circular chain of two or more processes, each waiting for a resource held by the next process in the chain.</p>
+                        </div>
+                    </div>
+                    <div class="theory-callout warning">
+                        <div class="callout-icon">⚠️</div>
+                        <div>
+                            <strong>Important:</strong> All four conditions must be present simultaneously for a deadlock. If we can prevent even one condition, deadlock becomes impossible.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 3: Handling Strategies -->
+            <div class="glass-card theory-section animate-in" id="theory-handling">
+                <div class="theory-section-header">
+                    <div class="section-number">03</div>
+                    <div>
+                        <h2>Deadlock Handling Strategies</h2>
+                        <p class="theory-meta">Prevention, Avoidance, Detection & Recovery</p>
+                    </div>
+                </div>
+                <div class="theory-content">
+                    <div class="strategy-table">
+                        <div class="strategy-row header">
+                            <div>Strategy</div>
+                            <div>Approach</div>
+                            <div>Trade-off</div>
+                        </div>
+                        <div class="strategy-row">
+                            <div class="strategy-name prevention">Prevention</div>
+                            <div>Ensure at least one Coffman condition cannot hold</div>
+                            <div>Low resource utilization, reduced throughput</div>
+                        </div>
+                        <div class="strategy-row">
+                            <div class="strategy-name avoidance">Avoidance</div>
+                            <div>System dynamically examines resource-allocation state before granting</div>
+                            <div>Requires advance information about maximum resource needs</div>
+                        </div>
+                        <div class="strategy-row">
+                            <div class="strategy-name detection">Detection</div>
+                            <div>Allow deadlocks, detect them, then recover</div>
+                            <div>Recovery may involve process termination or rollback</div>
+                        </div>
+                        <div class="strategy-row">
+                            <div class="strategy-name ignorance">Ignorance</div>
+                            <div>Pretend deadlocks never occur (Ostrich Algorithm)</div>
+                            <div>Used in many real systems (Linux, Windows) for simplicity</div>
+                        </div>
+                    </div>
+                    <div class="theory-callout tip">
+                        <div class="callout-icon">🎯</div>
+                        <div>
+                            <strong>Banker's Algorithm</strong> falls under the <strong>Avoidance</strong> strategy. It ensures the system never enters an unsafe state by checking safety before granting any resource request.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 4: Banker's Algorithm -->
+            <div class="glass-card theory-section animate-in" id="theory-bankers">
+                <div class="theory-section-header">
+                    <div class="section-number">04</div>
+                    <div>
+                        <h2>Banker's Algorithm</h2>
+                        <p class="theory-meta">Developed by Edsger Dijkstra (1965)</p>
+                    </div>
+                </div>
+                <div class="theory-content">
+                    <p>The Banker's Algorithm is named after a banking analogy: a banker will not allocate capital in such a way that it could no longer satisfy the needs of all its customers. Similarly, the OS acts as a banker for system resources.</p>
+                    <h3 class="theory-subheading">Data Structures</h3>
+                    <p>Let <strong>n</strong> = number of processes, <strong>m</strong> = number of resource types:</p>
+                    <div class="data-structures-grid">
+                        <div class="ds-card">
+                            <div class="ds-name">Available</div>
+                            <div class="ds-type">Vector [m]</div>
+                            <p>Number of available instances of each resource type. <code>Available[j] = k</code> means <strong>k</strong> instances of resource <strong>Rj</strong> are available.</p>
+                        </div>
+                        <div class="ds-card">
+                            <div class="ds-name">Maximum</div>
+                            <div class="ds-type">Matrix [n×m]</div>
+                            <p>Maximum demand of each process. <code>Max[i][j] = k</code> means process <strong>Pi</strong> may request at most <strong>k</strong> instances of resource <strong>Rj</strong>.</p>
+                        </div>
+                        <div class="ds-card">
+                            <div class="ds-name">Allocation</div>
+                            <div class="ds-type">Matrix [n×m]</div>
+                            <p>Resources currently allocated. <code>Allocation[i][j] = k</code> means process <strong>Pi</strong> currently holds <strong>k</strong> instances of <strong>Rj</strong>.</p>
+                        </div>
+                        <div class="ds-card">
+                            <div class="ds-name">Need</div>
+                            <div class="ds-type">Matrix [n×m]</div>
+                            <p>Remaining resource need. <code>Need[i][j] = Max[i][j] − Allocation[i][j]</code>. Number of resources <strong>Pi</strong> may still request.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 5: Safety Algorithm -->
+            <div class="glass-card theory-section animate-in" id="theory-safety">
+                <div class="theory-section-header">
+                    <div class="section-number">05</div>
+                    <div>
+                        <h2>Safety Algorithm</h2>
+                        <p class="theory-meta">Core of the Banker's Algorithm</p>
+                    </div>
+                </div>
+                <div class="theory-content">
+                    <p>The safety algorithm determines whether a system is in a <strong>safe state</strong>. A safe state guarantees that all processes can complete in some order without deadlock.</p>
+                    <div class="algorithm-steps">
+                        <div class="algo-step">
+                            <div class="algo-step-num">1</div>
+                            <div>
+                                <strong>Initialize:</strong>
+                                <code>Work = Available</code> (copy of available vector)<br>
+                                <code>Finish[i] = false</code> for all i = 0, 1, ..., n-1
+                            </div>
+                        </div>
+                        <div class="algo-step">
+                            <div class="algo-step-num">2</div>
+                            <div>
+                                <strong>Find:</strong> an index <em>i</em> such that:<br>
+                                <code>Finish[i] == false</code> AND <code>Need[i] ≤ Work</code><br>
+                                If no such <em>i</em> exists, go to step 4.
+                            </div>
+                        </div>
+                        <div class="algo-step">
+                            <div class="algo-step-num">3</div>
+                            <div>
+                                <strong>Execute:</strong><br>
+                                <code>Work = Work + Allocation[i]</code><br>
+                                <code>Finish[i] = true</code><br>
+                                Go to step 2.
+                            </div>
+                        </div>
+                        <div class="algo-step">
+                            <div class="algo-step-num">4</div>
+                            <div>
+                                <strong>Check:</strong> If <code>Finish[i] == true</code> for all <em>i</em>, then the system is in a <strong>safe state</strong>. Otherwise, it is <strong>unsafe</strong>.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 6: Resource-Request Algorithm -->
+            <div class="glass-card theory-section animate-in" id="theory-request">
+                <div class="theory-section-header">
+                    <div class="section-number">06</div>
+                    <div>
+                        <h2>Resource-Request Algorithm</h2>
+                        <p class="theory-meta">Handling New Requests</p>
+                    </div>
+                </div>
+                <div class="theory-content">
+                    <p>When process <strong>Pi</strong> makes a request <code>Request[i]</code>:</p>
+                    <div class="algorithm-steps">
+                        <div class="algo-step">
+                            <div class="algo-step-num">1</div>
+                            <div>
+                                If <code>Request[i] ≤ Need[i]</code>, go to step 2. Otherwise, raise an error — the process has exceeded its maximum claim.
+                            </div>
+                        </div>
+                        <div class="algo-step">
+                            <div class="algo-step-num">2</div>
+                            <div>
+                                If <code>Request[i] ≤ Available</code>, go to step 3. Otherwise, <strong>Pi must wait</strong> — resources are not available.
+                            </div>
+                        </div>
+                        <div class="algo-step">
+                            <div class="algo-step-num">3</div>
+                            <div>
+                                <strong>Pretend</strong> to allocate requested resources:<br>
+                                <code>Available = Available − Request[i]</code><br>
+                                <code>Allocation[i] = Allocation[i] + Request[i]</code><br>
+                                <code>Need[i] = Need[i] − Request[i]</code><br><br>
+                                Run the <strong>Safety Algorithm</strong>:<br>
+                                • If safe → grant the request<br>
+                                • If unsafe → <strong>deny</strong> the request, rollback, and Pi must wait
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Section 7: Worked Example -->
+            <div class="glass-card theory-section animate-in" id="theory-example">
+                <div class="theory-section-header">
+                    <div class="section-number">07</div>
+                    <div>
+                        <h2>Worked Example</h2>
+                        <p class="theory-meta">Classic Textbook Problem</p>
+                    </div>
+                </div>
+                <div class="theory-content">
+                    <p>Consider a system with <strong>5 processes</strong> (P0-P4) and <strong>3 resource types</strong> (A, B, C):</p>
+                    <div class="example-tables">
+                        <div class="example-table-wrapper">
+                            <h4>Allocation</h4>
+                            <table class="example-table">
+                                <thead><tr><th></th><th>A</th><th>B</th><th>C</th></tr></thead>
+                                <tbody>
+                                    <tr><td>P0</td><td>0</td><td>1</td><td>0</td></tr>
+                                    <tr><td>P1</td><td>2</td><td>0</td><td>0</td></tr>
+                                    <tr><td>P2</td><td>3</td><td>0</td><td>2</td></tr>
+                                    <tr><td>P3</td><td>2</td><td>1</td><td>1</td></tr>
+                                    <tr><td>P4</td><td>0</td><td>0</td><td>2</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="example-table-wrapper">
+                            <h4>Maximum</h4>
+                            <table class="example-table">
+                                <thead><tr><th></th><th>A</th><th>B</th><th>C</th></tr></thead>
+                                <tbody>
+                                    <tr><td>P0</td><td>7</td><td>5</td><td>3</td></tr>
+                                    <tr><td>P1</td><td>3</td><td>2</td><td>2</td></tr>
+                                    <tr><td>P2</td><td>9</td><td>0</td><td>2</td></tr>
+                                    <tr><td>P3</td><td>2</td><td>2</td><td>2</td></tr>
+                                    <tr><td>P4</td><td>4</td><td>3</td><td>3</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="example-table-wrapper">
+                            <h4>Available</h4>
+                            <table class="example-table">
+                                <thead><tr><th>A</th><th>B</th><th>C</th></tr></thead>
+                                <tbody>
+                                    <tr><td>3</td><td>3</td><td>2</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="theory-callout success">
+                        <div class="callout-icon">✅</div>
+                        <div>
+                            <strong>Result:</strong> The system is in a <strong>safe state</strong>! The safe sequence is:<br>
+                            <code>&lt; P1, P3, P4, P0, P2 &gt;</code><br><br>
+                            Try this example in the <a href="#simulator" class="inline-link">Simulator</a> to see the step-by-step trace!
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- PAGE: QUIZ                                   -->
+    <!-- ============================================ -->
+    <div id="page-quiz" class="page">
+        <div class="page-container">
+            <div class="page-header animate-in">
+                <h1 class="page-title">Test Your <span class="gradient-text">Knowledge</span></h1>
+                <p class="page-subtitle">15 questions covering deadlock theory, Banker's Algorithm, and resource management</p>
+            </div>
+
+            <!-- Quiz Controls -->
+            <div class="quiz-controls glass-card animate-in">
+                <div class="quiz-progress">
+                    <div class="quiz-progress-bar">
+                        <div class="quiz-progress-fill" id="quiz-progress-fill" style="width: 0%"></div>
+                    </div>
+                    <span class="quiz-progress-text" id="quiz-progress-text">Question 0 / 15</span>
+                </div>
+                <div class="quiz-score">
+                    <div class="score-display">
+                        <span class="score-label">Score</span>
+                        <span class="score-value" id="quiz-score">0</span>
+                    </div>
+                    <button id="btn-restart-quiz" class="btn btn-ghost btn-sm">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                        Restart
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quiz Container -->
+            <div id="quiz-container" class="quiz-container"></div>
+
+            <!-- Quiz Results (shown at the end) -->
+            <div id="quiz-results" class="glass-card quiz-results hidden animate-in">
+                <div class="quiz-results-icon" id="quiz-results-icon">🏆</div>
+                <h2 id="quiz-results-title">Quiz Completed!</h2>
+                <p id="quiz-results-desc">Great effort! Review your answers below.</p>
+                <div class="quiz-results-stats">
+                    <div class="qr-stat">
+                        <div class="qr-stat-value" id="qr-correct">0</div>
+                        <div class="qr-stat-label">Correct</div>
+                    </div>
+                    <div class="qr-stat">
+                        <div class="qr-stat-value" id="qr-wrong">0</div>
+                        <div class="qr-stat-label">Wrong</div>
+                    </div>
+                    <div class="qr-stat">
+                        <div class="qr-stat-value" id="qr-percentage">0%</div>
+                        <div class="qr-stat-label">Accuracy</div>
+                    </div>
+                </div>
+                <button id="btn-retry-quiz" class="btn btn-primary btn-lg">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                    Try Again
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="app-footer">
+        <div class="footer-content">
+            <p>Banker's Algorithm Suite &mdash; An interactive learning platform for OS deadlock avoidance concepts</p>
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#simulator">Simulator</a>
+                <a href="#theory">Theory</a>
+                <a href="#quiz">Quiz</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
